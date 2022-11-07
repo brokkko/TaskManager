@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BoardService {
-    Board create(Board board);
+    Board create(Board board, UUID userId);
     Board update(Board board);
     Board get(UUID id);
-    List<Board> getAll(Pageable pageableObj);
-    Boolean delete(UUID id);
+    List<Board> getAllByUserId(Pageable pageableObj, UUID userId);
+    void delete(UUID id);
+    void deleteAllByUserId(UUID userId);
 }

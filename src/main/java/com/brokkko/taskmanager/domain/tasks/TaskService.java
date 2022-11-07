@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface TaskService {
     Task create(Task task, UUID boardId);
-    Task update(Task task, UUID taskId);
+    Task update(Task task);
     Task get(UUID id);
     List<Task> getAllByBoardIdAndStatus(String status, UUID boardId);
     List<Task> getAllByBoardId(Pageable pageableObj, UUID boardId);

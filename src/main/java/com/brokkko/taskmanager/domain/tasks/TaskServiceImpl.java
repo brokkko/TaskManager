@@ -41,8 +41,8 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public Task update(Task updatedTask, UUID taskId) {
-        Task task = this.get(taskId);
+    public Task update(Task updatedTask) {
+        Task task = this.get(updatedTask.getId());
         updatedTask = (Task) ComparisonService.partialUpdate(task, updatedTask);
         return mappingTaskService.mapToTask(taskRepository.save(mappingTaskService.mapFromTask(updatedTask)));
     }

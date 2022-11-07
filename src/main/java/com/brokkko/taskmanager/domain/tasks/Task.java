@@ -2,7 +2,6 @@ package com.brokkko.taskmanager.domain.tasks;
 
 import com.brokkko.taskmanager.domain.boards.Board;
 import com.brokkko.taskmanager.enumerations.TaskStatus;
-import com.brokkko.taskmanager.models.BoardEntity;
 import lombok.*;
 
 import java.util.Date;

@@ -36,19 +36,18 @@ public class TaskController {
         );
     }
 
-    @PutMapping(value = "/tasks/{taskId}")
-    public ResponseEntity<TaskDTO> update(@PathVariable(value = "taskId") UUID taskId,
-                                          @RequestBody TaskDTO taskDTO) {
+    @PutMapping(value = "/tasks")
+    public ResponseEntity<TaskDTO> update(@RequestBody TaskDTO taskDTO) {
         return new ResponseEntity<>(
                 mappingTaskDTOService.mapToTaskDTO(
                         taskService.update(
-                                mappingTaskDTOService.mapFromTaskDTO(taskDTO), taskId)), HttpStatus.OK
+                                mappingTaskDTOService.mapFromTaskDTO(taskDTO))), HttpStatus.OK
         );
     }
 
     @GetMapping(value = "/boards/{boardId}/tasks")
     public ResponseEntity<List<TaskDTO>> getAllByBoardId(@PathVariable(value = "boardId") UUID boardId,
-                                                @PageableDefault(page = 0, size = 100) Pageable pageableObj) {
+                                                @PageableDefault(page = 1, size = 100) Pageable pageableObj) {
         return new ResponseEntity<>(
                 mappingTaskDTOService.mapToTaskDTOList(taskService.getAllByBoardId(pageableObj, boardId)),
                 HttpStatus.OK

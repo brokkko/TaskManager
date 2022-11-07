@@ -5,12 +5,13 @@ import lombok.*;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Builder
-public class BoardDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTO {
     private UUID id;
-    private String name;
+    private String username;
+    private String password;
 }
