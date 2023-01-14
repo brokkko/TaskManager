@@ -13,60 +13,63 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import static com.brokkko.taskmanager.config.ConstantsConfiguration.BOARDS;
+
 @RestController
 @Slf4j
+@RequestMapping(value = BOARDS)
 public class BoardController {
-    private final BoardService boardService;
-    private final MappingBoardDTOService mappingBoardDTOService;
-
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-        this.mappingBoardDTOService = new MappingBoardDTOService();
-    }
-
-    @PostMapping(value = "/users/{userId}/boards")
-    public ResponseEntity<BoardDTO> create(@PathVariable(value = "userId") UUID userId,
-                                           @RequestBody BoardDTO boardDTO) {
-        return new ResponseEntity<>(
-                mappingBoardDTOService.mapToBoardDTO(
-                        boardService.create(
-                                mappingBoardDTOService.mapFromBoardDTO(boardDTO), userId)), HttpStatus.CREATED
-        );
-    }
-
-    @PutMapping(value = "/boards")
-    public ResponseEntity<BoardDTO> update(@RequestBody BoardDTO boardDTO) {
-        return new ResponseEntity<>(
-                mappingBoardDTOService.mapToBoardDTO(
-                        boardService.update(
-                                mappingBoardDTOService.mapFromBoardDTO(boardDTO))), HttpStatus.OK
-        );
-    }
-
-    @GetMapping(value = "/boards/{id}")
-    public ResponseEntity<BoardDTO> get(@PathVariable(name = "id") UUID id) {
-        return new ResponseEntity<>(mappingBoardDTOService.mapToBoardDTO(boardService.get(id)), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/users/{userId}/boards")
-    public ResponseEntity<List<BoardDTO>> getAllByUserId(@PathVariable(value = "userId") UUID userId,
-                                                         @PageableDefault(page = 1, size = 100) Pageable pageableObj) {
-        return new ResponseEntity<>(
-                mappingBoardDTOService.mapToBoardDTOList(boardService.getAllByUserId(pageableObj, userId)),
-                HttpStatus.OK
-        );
-    }
-
-    @DeleteMapping(value = "/boards/{boardId}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable(name = "boardId") UUID id) {
-        boardService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping(value = "/users/{userId}/boards")
-    public ResponseEntity<HttpStatus> deleteAllByUserId(@PathVariable(name = "userId") UUID id) {
-        boardService.deleteAllByUserId(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    private final BoardService boardService;
+//    private final MappingBoardDTOService mappingBoardDTOService;
+//
+//    public BoardController(BoardService boardService) {
+//        this.boardService = boardService;
+//        this.mappingBoardDTOService = new MappingBoardDTOService();
+//    }
+//
+//    @PostMapping(value = "/{userId}/boards")
+//    public ResponseEntity<BoardDTO> create(@PathVariable(value = "userId") UUID userId,
+//                                           @RequestBody BoardDTO boardDTO) {
+//        return new ResponseEntity<>(
+//                mappingBoardDTOService.mapToBoardDTO(
+//                        boardService.create(
+//                                mappingBoardDTOService.mapFromBoardDTO(boardDTO), userId)), HttpStatus.CREATED
+//        );
+//    }
+//
+//    @PutMapping
+//    public ResponseEntity<BoardDTO> update(@RequestBody BoardDTO boardDTO) {
+//        return new ResponseEntity<>(
+//                mappingBoardDTOService.mapToBoardDTO(
+//                        boardService.update(
+//                                mappingBoardDTOService.mapFromBoardDTO(boardDTO))), HttpStatus.OK
+//        );
+//    }
+//
+//    @GetMapping(value = "/{id}")
+//    public ResponseEntity<BoardDTO> get(@PathVariable(name = "id") UUID id) {
+//        return new ResponseEntity<>(mappingBoardDTOService.mapToBoardDTO(boardService.get(id)), HttpStatus.OK);
+//    }
+//
+//    @GetMapping(value = "/users/{userId}/boards")
+//    public ResponseEntity<List<BoardDTO>> getAllByUserId(@PathVariable(value = "userId") UUID userId,
+//                                                         @PageableDefault(page = 1, size = 100) Pageable pageableObj) {
+//        return new ResponseEntity<>(
+//                mappingBoardDTOService.mapToBoardDTOList(boardService.getAllByUserId(pageableObj, userId)),
+//                HttpStatus.OK
+//        );
+//    }
+//
+//    @DeleteMapping(value = "/{boardId}")
+//    public ResponseEntity<HttpStatus> delete(@PathVariable(name = "boardId") UUID id) {
+//        boardService.delete(id);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
+//
+//    @DeleteMapping(value = "/users/{userId}/boards")
+//    public ResponseEntity<HttpStatus> deleteAllByUserId(@PathVariable(name = "userId") UUID id) {
+//        boardService.deleteAllByUserId(id);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 }
 
