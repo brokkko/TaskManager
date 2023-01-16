@@ -1,9 +1,8 @@
 package com.brokkko.taskmanager.domain.users;
 
 import com.brokkko.taskmanager.exceptions.IdNotFoundException;
-import com.brokkko.taskmanager.models.UserEntity;
 import com.brokkko.taskmanager.repositories.UserRepository;
-import com.brokkko.taskmanager.services.mapping.user.MappingUserService;
+import com.brokkko.taskmanager.services.mapping.users.MappingUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +29,17 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(email)) {
             return mappingUserService.mapToUser(userRepository.findByEmail(email));
         } else return null;
+
+    }
+
+    @Override
+    public User getUserById(UUID id) {
+        return mappingUserService.mapToUser(
+                userRepository
+                        .findById(id)
+                        .orElseThrow(() ->
+                                new IdNotFoundException("User " + id + " not found.")
+                        ));
 
     }
 

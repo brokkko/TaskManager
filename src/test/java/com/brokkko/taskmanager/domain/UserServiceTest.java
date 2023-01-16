@@ -1,10 +1,7 @@
 package com.brokkko.taskmanager.domain;
 
-import com.brokkko.taskmanager.domain.users.User;
 import com.brokkko.taskmanager.domain.users.UserService;
-import com.brokkko.taskmanager.services.mapping.user.MappingUserService;
-import org.junit.Assert;
-import org.junit.Test;
+import com.brokkko.taskmanager.services.mapping.users.MappingUserService;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

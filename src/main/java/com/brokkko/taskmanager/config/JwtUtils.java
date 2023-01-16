@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtils {
+    // TODO parse from config
     private final String jwtSigningKey = "secret";
 
     public String extractUsername(String token) {

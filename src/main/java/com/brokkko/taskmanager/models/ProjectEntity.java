@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -16,17 +17,19 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "boards")
-public class BoardEntity {
+@Table(name = "projects")
+public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String name;
+    private String description;
+    private Date dateOfCreation;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) // TODO lazy
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private UserEntity user;
+    private UserEntity owner;
 
 }

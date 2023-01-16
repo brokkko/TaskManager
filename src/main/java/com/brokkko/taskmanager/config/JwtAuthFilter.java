@@ -36,18 +36,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String userEmail;
         final String jwtToken;
 
-        if (authHeader == null || !authHeader.startsWith("Bearer")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
         jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUsername(jwtToken);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // TODO fix
             com.brokkko.taskmanager.domain.users.User user = userService.getUserByEmail(userEmail);
             UserDetails userDetails = new User(
                     user.getEmail(),
                     user.getPassword(),
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE ADMIN"))
+                    Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString()))
             );
             if(jwtUtils.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =

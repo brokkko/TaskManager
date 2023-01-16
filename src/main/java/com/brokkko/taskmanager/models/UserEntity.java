@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,6 +22,13 @@ public class UserEntity {
     private UUID id;
     private String email;
     private String password;
-    private String username;
+    private String firstname;
+    private String lastname;
+    private String userAppName;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+//    @ManyToMany(mappedBy = "users")
+//    private Set<TeamProjectEntity> teamProjects;
 
 }

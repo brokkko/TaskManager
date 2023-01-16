@@ -1,4 +1,4 @@
-package com.brokkko.taskmanager.services.mapping.user;
+package com.brokkko.taskmanager.services.mapping.users;
 
 import org.modelmapper.ModelMapper;
 

@@ -1,4 +1,4 @@
-package com.brokkko.taskmanager.services.mapping.user;
+package com.brokkko.taskmanager.services.mapping.users;
 
 import com.brokkko.taskmanager.domain.users.User;
 import com.brokkko.taskmanager.web.dto.UserDTO;

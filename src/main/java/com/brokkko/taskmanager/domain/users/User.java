@@ -1,5 +1,6 @@
 package com.brokkko.taskmanager.domain.users;
 
+import com.brokkko.taskmanager.enumerations.Role;
 import lombok.*;
 
 import java.util.UUID;
@@ -11,9 +12,12 @@ import java.util.UUID;
 @Builder
 @Data
 public class User {
-    public UUID id;
-    public String username;
-    public String email;
-    public String password;
+    private UUID id;
+    private String email;
+    private String password;
+    private String firstname;
+    private String lastname;
+    private String userAppName;
+    private Role role;
 
 }
