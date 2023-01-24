@@ -3,6 +3,7 @@ package com.brokkko.taskmanager.domain.users;
 import com.brokkko.taskmanager.exceptions.IdNotFoundException;
 import com.brokkko.taskmanager.exceptions.UserNotAuthenticatedException;
 import com.brokkko.taskmanager.repositories.UserRepository;
+import com.brokkko.taskmanager.services.GenerateAppNameService;
 import com.brokkko.taskmanager.services.mapping.users.MappingUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,17 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final MappingUserService mappingUserService;
+    private final GenerateAppNameService generateAppNameService;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
         this.mappingUserService = new MappingUserService();
+        this.generateAppNameService = new GenerateAppNameService();
     }
 
     @Override
     public User create(User user) {
+        user.setUserAppName(generateAppNameService.generateAppName(user.getFirstname(), user.getLastname()));
         return mappingUserService.mapToUser(userRepository.save(mappingUserService.mapFromUser(user)));
     }
 
