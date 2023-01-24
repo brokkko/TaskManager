@@ -1,7 +1,8 @@
 package com.brokkko.taskmanager.controllers;
 
 import com.brokkko.taskmanager.domain.users.UserService;
-import com.brokkko.taskmanager.services.mapping.user.MappingUserDTOService;
+import com.brokkko.taskmanager.services.mapping.users.MappingUserDTOService;
+import com.brokkko.taskmanager.web.dto.AuthenticationDTO;
 import com.brokkko.taskmanager.web.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.brokkko.taskmanager.config.ConstantsConfiguration.USERS;
+
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = USERS)
 @Slf4j
 public class UserController {
     private final UserService userService;
@@ -22,13 +25,16 @@ public class UserController {
         this.mappingUserDTOService = new MappingUserDTOService();
     }
 
-    @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(
-                mappingUserDTOService.mapToUserDTO(
-                        userService.create(
-                                mappingUserDTOService.mapFromUserDTO(userDTO))), HttpStatus.CREATED
-        );
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "userId") UUID id) {
+        return new ResponseEntity<>(mappingUserDTOService.mapToUserDTO(userService.getUserById(id)), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<UserDTO> getUserByEmailAndPassword(@RequestBody AuthenticationDTO userData) {
+        return new ResponseEntity<>(mappingUserDTOService.mapToUserDTO(
+                userService.getUserByEmailAndPassword(userData.getEmail(), userData.getPassword())),
+                HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{userId}")

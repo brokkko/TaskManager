@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,15 +25,22 @@ public class TaskEntity {
     private UUID id;
     private String name;
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private Date dateOfCreation;
     private String status;
+    private Date deadline;
+    private Time timeEstimate;
+    private Time timeSpent;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "board_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private BoardEntity board;
+    private UserEntity user;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private ProjectEntity project;
 
 }

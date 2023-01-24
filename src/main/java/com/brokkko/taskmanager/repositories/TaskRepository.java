@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TaskRepository extends JpaRepository<TaskEntity, UUID> {
-    Page<TaskEntity> findAllByBoardId(UUID board_id, Pageable pageable);
-    List<TaskEntity> getAllByStatusAndBoardId(String status, UUID boardId);
+    Page<TaskEntity> findAllByProjectId(UUID projectId, Pageable pageable);
+    List<TaskEntity> getAllByStatusAndProjectId(String status, UUID projectId);
     @Transactional
-    void deleteAllByBoardId(UUID boardId);
+    void deleteAllByProjectId(UUID projectId);
 }

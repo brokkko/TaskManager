@@ -1,12 +1,13 @@
 package com.brokkko.taskmanager.models;
 
+import com.brokkko.taskmanager.enumerations.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -19,12 +20,15 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    @NotNull(message = "Password can't be null")
+    private String email;
     private String password;
+    private String firstname;
+    private String lastname;
+    private String userAppName;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @NotNull(message = "Username can't be null")
-    private String username;
-
+//    @ManyToMany(mappedBy = "users")
+//    private Set<TeamProjectEntity> teamProjects;
 
 }
