@@ -2,6 +2,7 @@ package com.brokkko.taskmanager.controllers;
 
 import com.brokkko.taskmanager.config.JwtUtils;
 import com.brokkko.taskmanager.domain.users.UserServiceImpl;
+import com.brokkko.taskmanager.exceptions.UserNotAuthenticatedException;
 import com.brokkko.taskmanager.services.mapping.users.MappingUserDTOService;
 import com.brokkko.taskmanager.web.dto.AuthenticationDTO;
 import com.brokkko.taskmanager.web.dto.UserDTO;
@@ -13,10 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -32,7 +30,7 @@ public class AuthenticationController {
     private final MappingUserDTOService mappingUserDTOService = new MappingUserDTOService();
     private final JwtUtils jwtUtils;
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
@@ -40,8 +38,7 @@ public class AuthenticationController {
         UserDTO existedUser = mappingUserDTOService.mapToUserDTO(
                 userService.getUserByEmail(request.getEmail()));
         if (existedUser == null) {
-            // TODO handle error
-            return ResponseEntity.status(400).body("Some error");
+            throw new UserNotAuthenticatedException("User not authenticated");
         }
         final UserDetails userDetails = new User(
                 existedUser.getEmail(),

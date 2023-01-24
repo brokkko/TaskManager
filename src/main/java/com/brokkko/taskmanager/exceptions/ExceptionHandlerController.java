@@ -19,5 +19,14 @@ public class ExceptionHandlerController {
                 .body(exceptionResponse);
     }
 
+    @ExceptionHandler(value = {UserNotAuthenticatedException.class})
+    public ResponseEntity<?> handleNotAuthenticatedException(RuntimeException e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        log.warn("{} : Exception was handled", e.getClass());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(exceptionResponse);
+    }
+
 }
 
