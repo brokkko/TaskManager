@@ -1,6 +1,7 @@
 package com.brokkko.taskmanager.domain.users;
 
 import com.brokkko.taskmanager.exceptions.IdNotFoundException;
+import com.brokkko.taskmanager.exceptions.UserNotAuthenticatedException;
 import com.brokkko.taskmanager.repositories.UserRepository;
 import com.brokkko.taskmanager.services.mapping.users.MappingUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,13 @@ public class UserServiceImpl implements UserService {
             return mappingUserService.mapToUser(userRepository.findByEmail(email));
         } else return null;
 
+    }
+
+    @Override
+    public User getUserByEmailAndPassword(String email, String password) {
+        if(userRepository.existsByEmail(email)){
+            return mappingUserService.mapToUser(userRepository.findAllByEmailAndPassword(email, password));
+        } else throw new UserNotAuthenticatedException("User with that email doesn't exist: " + email);
     }
 
     @Override
