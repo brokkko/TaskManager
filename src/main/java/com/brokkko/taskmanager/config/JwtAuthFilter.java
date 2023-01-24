@@ -1,6 +1,8 @@
 package com.brokkko.taskmanager.config;
 
 import com.brokkko.taskmanager.domain.users.UserServiceImpl;
+import com.brokkko.taskmanager.services.mapping.users.MappingUserDTOService;
+import com.brokkko.taskmanager.web.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,6 +27,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserServiceImpl userService;
+    private final MappingUserDTOService mappingUserDTOService = new MappingUserDTOService();
     private final JwtUtils jwtUtils;
 
     @Override
@@ -43,8 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUsername(jwtToken);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // TODO fix
-            com.brokkko.taskmanager.domain.users.User user = userService.getUserByEmail(userEmail);
+            UserDTO user = mappingUserDTOService.mapToUserDTO(userService.getUserByEmail(userEmail));
             UserDetails userDetails = new User(
                     user.getEmail(),
                     user.getPassword(),
