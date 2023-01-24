@@ -45,13 +45,12 @@ public class AuthenticationController {
                 existedUser.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority(existedUser.getRole().toString()))
         );
-        // TODO return existed user
         return ResponseEntity.ok(jwtUtils.generateToken(userDetails));
 
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<UserDTO> signInUser(@RequestBody UserDTO newUserRequest) {
+    @PostMapping("/signup")
+    public ResponseEntity<UserDTO> signUpUser(@RequestBody UserDTO newUserRequest) {
         return new ResponseEntity<>(
                 mappingUserDTOService.mapToUserDTO(
                         userService.create(
