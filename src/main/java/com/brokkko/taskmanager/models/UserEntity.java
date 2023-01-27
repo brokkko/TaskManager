@@ -28,7 +28,4 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @ManyToMany(mappedBy = "users")
-//    private Set<TeamProjectEntity> teamProjects;
-
 }

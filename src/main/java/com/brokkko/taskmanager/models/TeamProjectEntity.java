@@ -21,23 +21,16 @@ import java.util.UUID;
 @Table(name = "team_projects")
 public class TeamProjectEntity implements Serializable {
     @Id
-    @Column(name="project_id")
-    private UUID team_project_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    private String name;
+    private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private ProjectEntity project;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonIgnore
-//    private Set<UserEntity> user;
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable
-//    private Set<UserEntity> users;
 
 }
