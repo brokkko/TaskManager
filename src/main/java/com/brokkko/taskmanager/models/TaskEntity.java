@@ -25,7 +25,8 @@ public class TaskEntity {
     private UUID id;
     private String name;
     private String description;
-    private Date dateOfCreation;
+    private Date createdAt;
+    private Date updatedAt;
     private String status;
     private Date deadline;
     private Time timeEstimate;

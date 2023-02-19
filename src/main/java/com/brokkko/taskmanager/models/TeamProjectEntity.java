@@ -22,7 +22,7 @@ import java.util.UUID;
 public class TeamProjectEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private UUID team_project_id;
 
     private String name;
     private String description;

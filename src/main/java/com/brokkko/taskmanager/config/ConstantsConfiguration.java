@@ -12,5 +12,5 @@ public class ConstantsConfiguration {
     public static final String AUTHENTICATION = API + "/auth";
     public static final String USERS = API + "/users";
 
-    public static final String BOARDS = API + "/boards";
+    public static final String PROJECTS = API + "/projects";
 }

@@ -1,23 +1,22 @@
-package com.brokkko.taskmanager.domain.projects;
+package com.brokkko.taskmanager.web.dto;
 
-import com.brokkko.taskmanager.domain.users.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.Date;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Getter
 @Setter
 @Builder
-@Data
-public class Project {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProjectDTO {
     private UUID id;
     private String name;
     private String description;
     private Date createdAt;
     private Date updatedAt;
-    private User user;
+    UserDTO user;
 }

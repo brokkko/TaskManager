@@ -28,18 +28,6 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final UserServiceImpl userService;
-//    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
-//            new User(
-//                    "brokkko@mail.ru",
-//                    "password",
-//                    Collections.singleton(new SimpleGrantedAuthority("ROLE ADMIN"))
-//            ),
-//            new User(
-//                    "user@mail.ru",
-//                    "password",
-//                    Collections.singleton(new SimpleGrantedAuthority("ROLE USER"))
-//            )
-//            );
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -91,11 +79,7 @@ public class SecurityConfig {
                         user.getPassword(),
                         Collections.singleton(new SimpleGrantedAuthority("ROLE ADMIN"))
                 );
-//                return APPLICATION_USERS
-//                        .stream()
-//                        .filter(user -> user.getUsername().equals(email))
-//                        .findFirst()
-//                        .orElseThrow(() -> new UsernameNotFoundException("No user was found"));
+
             }
         };
     }

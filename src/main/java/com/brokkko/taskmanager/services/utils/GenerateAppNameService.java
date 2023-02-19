@@ -1,4 +1,4 @@
-package com.brokkko.taskmanager.services;
+package com.brokkko.taskmanager.services.utils;
 
 import org.springframework.stereotype.Service;
 

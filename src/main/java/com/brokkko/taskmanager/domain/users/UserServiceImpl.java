@@ -3,7 +3,7 @@ package com.brokkko.taskmanager.domain.users;
 import com.brokkko.taskmanager.exceptions.IdNotFoundException;
 import com.brokkko.taskmanager.exceptions.UserNotAuthenticatedException;
 import com.brokkko.taskmanager.repositories.UserRepository;
-import com.brokkko.taskmanager.services.GenerateAppNameService;
+import com.brokkko.taskmanager.services.utils.GenerateAppNameService;
 import com.brokkko.taskmanager.services.mapping.users.MappingUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

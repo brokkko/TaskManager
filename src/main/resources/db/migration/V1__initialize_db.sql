@@ -1,13 +1,14 @@
+drop table if exists users cascade;
 drop table if exists projects cascade;
 drop table if exists tasks cascade;
 drop table if exists team_projects cascade;
 drop table if exists user_team_projects cascade;
-drop table if exists users cascade;
 
 create table projects (
     id uuid not null,
-    date_of_creation timestamp,
     description varchar(255),
+    created_at timestamp,
+    updated_at timestamp,
     name varchar(60),
     user_id uuid not null,
     primary key (id)
@@ -15,7 +16,8 @@ create table projects (
 
 create table tasks (
     id uuid not null,
-    date_of_creation timestamp,
+    created_at timestamp,
+    updated_at timestamp,
     deadline timestamp,
     description varchar(255),
     name varchar(100),
