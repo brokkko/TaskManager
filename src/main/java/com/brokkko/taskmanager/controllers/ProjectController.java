@@ -30,13 +30,10 @@ public class ProjectController {
         mappingUserDTOService = new MappingUserDTOService();
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping("/{userId}") // TODO: send it in header
     public ResponseEntity<ProjectDTO> createProject(@PathVariable(name = "userId") UUID userId,
                                                     @RequestBody ProjectDTO projectDTO) {
-        System.out.println("here " + userId);
-        System.out.println(mappingUserDTOService.mapToUserDTO(userService.getUserById(userId)).getId());
         projectDTO.setUser(mappingUserDTOService.mapToUserDTO(userService.getUserById(userId)));
-        System.out.println(projectDTO.getId());
         return new ResponseEntity<>(
                 mappingProjectDTOService.mapToProjectDTO(
                         projectService.createProject(mappingProjectDTOService.mapFromProjectDTO(projectDTO))),
