@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class ExceptionHandlerController {
 
-    @ExceptionHandler(value = {IdNotFoundException.class})
+    @ExceptionHandler(value = {IdNotFoundException.class, UserNotFoundException.class})
     public ResponseEntity<?> handleNotFoundException(RuntimeException e) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
         log.warn("{} : Exception was handled", e.getClass());

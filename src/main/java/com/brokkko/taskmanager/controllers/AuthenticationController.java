@@ -35,11 +35,11 @@ public class AuthenticationController {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        UserDTO existedUser = mappingUserDTOService.mapToUserDTO(
-                userService.getUserByEmail(request.getEmail()));
-        if (existedUser == null) {
-            throw new UserNotAuthenticatedException("User not authenticated");
-        }
+        UserDTO existedUser = userService
+                .getUserByEmail(request.getEmail())
+                .map(mappingUserDTOService::mapToUserDTO)
+                .orElseThrow(() -> new UserNotAuthenticatedException("User not authenticated"));
+
         final UserDetails userDetails = new User(
                 existedUser.getEmail(),
                 existedUser.getPassword(),

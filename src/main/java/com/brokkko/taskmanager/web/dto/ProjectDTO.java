@@ -18,5 +18,5 @@ public class ProjectDTO {
     private String description;
     private Date createdAt;
     private Date updatedAt;
-    UserDTO user;
+    private UserDTO owner;
 }

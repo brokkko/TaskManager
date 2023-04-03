@@ -45,7 +45,7 @@ public class UserRepositoryTest {
                 .build();
         userRepository.save(user);
         assertEquals(true, userRepository.existsByEmail(email));
-        assertNotEquals(null, userRepository.findByEmail(email).getId());
+        assertNotEquals(null, userRepository.findByEmail(email).get().getId());
     }
 
     static class Initializer

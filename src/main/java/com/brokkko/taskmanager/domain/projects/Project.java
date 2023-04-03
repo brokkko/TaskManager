@@ -19,5 +19,5 @@ public class Project {
     private String description;
     private Date createdAt;
     private Date updatedAt;
-    private User user;
+    private User owner;
 }

@@ -34,7 +34,7 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**/auth/**")
+                .antMatchers("/**/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -70,10 +70,9 @@ public class SecurityConfig {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                User user = userService.getUserByEmail(email);
-                if (user == null) {
-                    throw new UsernameNotFoundException("No user was found");
-                }
+                User user = userService
+                        .getUserByEmail(email)
+                        .orElseThrow(() -> new UsernameNotFoundException("User with email: { " + email + "} not found."));
                 return new org.springframework.security.core.userdetails.User(
                         user.getEmail(),
                         user.getPassword(),

@@ -5,6 +5,9 @@ import com.brokkko.taskmanager.domain.users.UserService;
 import com.brokkko.taskmanager.services.mapping.projects.MappingProjectDTOService;
 import com.brokkko.taskmanager.services.mapping.users.MappingUserDTOService;
 import com.brokkko.taskmanager.web.dto.ProjectDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,23 +33,36 @@ public class ProjectController {
         mappingUserDTOService = new MappingUserDTOService();
     }
 
-    @PostMapping("/{userId}") // TODO: send it in header
-    public ResponseEntity<ProjectDTO> createProject(@PathVariable(name = "userId") UUID userId,
+    @Operation(summary = "Create project")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created a project"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Authorization denied"),
+            @ApiResponse(responseCode = "500", description = "Unexpected system exception"),
+            @ApiResponse(responseCode = "502", description = "An error has occurred with an upstream service")
+    })
+    @PostMapping
+    public ResponseEntity<ProjectDTO> createProject(@RequestHeader("user-id") UUID userId,
                                                     @RequestBody ProjectDTO projectDTO) {
-        projectDTO.setUser(mappingUserDTOService.mapToUserDTO(userService.getUserById(userId)));
-        return new ResponseEntity<>(
-                mappingProjectDTOService.mapToProjectDTO(
-                        projectService.createProject(mappingProjectDTOService.mapFromProjectDTO(projectDTO))),
-                HttpStatus.CREATED);
+        return userService.getUserById(userId)
+                .map(mappingUserDTOService::mapToUserDTO)
+                .map(userDTO -> {
+                    projectDTO.setOwner(userDTO);
+                    return projectService.createProject(mappingProjectDTOService.mapFromProjectDTO(projectDTO));
+                })
+                .map(mappingProjectDTOService::mapToProjectDTO)
+                .map(projectDTOResponse -> new ResponseEntity<>(projectDTOResponse, HttpStatus.CREATED))
+                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
+    @Operation(summary = "Gets project by id")
     @GetMapping(value = "/{projectId}")
     public ResponseEntity<ProjectDTO> getProjectById(@PathVariable(name = "projectId") UUID id) {
-        return new ResponseEntity<>(
-                mappingProjectDTOService.mapToProjectDTO(
-                        projectService.getProjectById(id)),
-                HttpStatus.OK
-        );
+        return projectService
+                .getProjectById(id)
+                .map(mappingProjectDTOService::mapToProjectDTO)
+                .map(projectDTO -> new ResponseEntity<>(projectDTO, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
 }

@@ -1,9 +1,11 @@
 package com.brokkko.taskmanager.config;
 
 import com.brokkko.taskmanager.domain.users.UserServiceImpl;
+import com.brokkko.taskmanager.exceptions.UserNotFoundException;
 import com.brokkko.taskmanager.services.mapping.users.MappingUserDTOService;
 import com.brokkko.taskmanager.web.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,8 +35,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+            @NotNull HttpServletResponse response,
+            @NotNull FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader(AUTHORIZATION);
         final String userEmail;
         final String jwtToken;
@@ -45,9 +47,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUsername(jwtToken);
-        System.out.println(userEmail);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDTO user = mappingUserDTOService.mapToUserDTO(userService.getUserByEmail(userEmail));
+            UserDTO user = userService
+                    .getUserByEmail(userEmail)
+                    .map(mappingUserDTOService::mapToUserDTO)
+                    .orElseThrow(() -> new UserNotFoundException("User with email: { " + userEmail + "} not found."));
             UserDetails userDetails = new User(
                     user.getEmail(),
                     user.getPassword(),
